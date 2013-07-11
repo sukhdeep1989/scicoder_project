@@ -19,9 +19,8 @@ class Read_fits():
         for name in self.col_names:
             col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
-            self.data_out=np.vstack((self.data_out,col))
-#            self.data_out=[self.data_out,col]
-            
+#            self.data_out=np.vstack((self.data_out,col))
+            self.data_out=[self.data_out,col]
 
         Data.close()
 #        data_out=data_out[good==True]
@@ -35,14 +34,14 @@ class Read_fits():
         for name in col_names:
             col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
-            self.data_out=np.vstack((data_out,col))
+#            self.data_out=np.vstack((data_out,col))
             good=good&temp_good
-#            self.data_out=[self.data_out,col]                                 
+            self.data_out=[self.data_out,col]                                 
 
         Data.close()
 #        data_out=data_out[good==True]
         return data_out
 
 
-dat1=Read_fits(FileName="/home/sukh/sci_coder/ssppOut-dr9.fits",col_names=['FEH_ADOP'])
-dat1.read_data()
+#dat1=Read_fits(FileName="/home/sukh/sci_coder/ssppOut-dr9.fits",col_names=['FEH_ADOP','DIST_ADOP','RV_ADOP'])
+#dat1.read_data()
