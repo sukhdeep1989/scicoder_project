@@ -13,15 +13,18 @@ class Read_fits():
     def read_data(self):
         Data = fits.open(self.FileName,memmap=True)
         tbdata = Data[1].data
+        i=0
         for i in range(len(self.col_names)):
             col=tbdata.field(self.col_names[i])
             temp_good=col>-9999
+
             if i==0 :
                 self.data_out=col
                 good=temp_good
             else:
-                temp=(self.data_out,col)
-                self.data_out=np.column_stack(temp)
+                self.data_out=np.vstack(self.data_out,col)
+                print col.shape
+                print self.data_out.shape
                 good= good & temp_good
 
             Data.close()
@@ -40,7 +43,8 @@ class Read_fits():
                 good=temp_good
             else:
                 temp=(self.data_out,col)
-                self.data_out=np.column_stack(temp)
+                temp2=np.column_stack(temp)
+                self.data_out=temp2
                 good= good & temp_good
 
             Data.close()
