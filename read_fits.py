@@ -2,6 +2,10 @@ import sys
 from astropy.io import fits
 import numpy as np
 
+# Takes a string "FileName" for fits files, and a list of colnames. Returns a table with data for all columns.
+#
+#
+#
 class Read_fits():
     FileName=''
     col_names=[]
