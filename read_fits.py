@@ -27,3 +27,7 @@ class Read_fits():
             Data.close()
 
             return data_out
+
+
+dat1=Read_fits(FileName="/home/sukh/sci_coder/ssppOut-dr9.fits",col_names=['FEH_ADOP'])
+dat1.read_data()
