@@ -1,6 +1,7 @@
-#!/Users/jhyoon/anaconda/bin/python
+#!/anaconda/bin/python
 
 import sys
+import astropy 
 from astropy.io import fits
 
 FileName=sys.argv[1]
@@ -16,7 +17,7 @@ spec = tbdata.field("SPECTYPE_HAMMER")
 Data.close()
 
 inx = ((feh > -9999) & (dist > -9999) & (v > -9999))
-feh = feh[inx)]
+feh = feh[inx]
 dist = dist[inx]
 v = v[inx]
 spec = spec[x]
