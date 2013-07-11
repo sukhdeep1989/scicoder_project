@@ -20,6 +20,7 @@ class Read_fits():
             col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
             self.data_out=np.vstack((self.data_out,col))
+#            self.data_out=[self.data_out,col]
             
 
         Data.close()
@@ -36,6 +37,7 @@ class Read_fits():
             temp_good=np.array(col>-9999)
             self.data_out=np.vstack((data_out,col))
             good=good&temp_good
+#            self.data_out=[self.data_out,col]                                 
 
         Data.close()
 #        data_out=data_out[good==True]
