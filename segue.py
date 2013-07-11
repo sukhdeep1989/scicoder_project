@@ -12,12 +12,16 @@ tbdata = Data[1].data
 feh = tbdata.field("FEH_ADOP")
 dist = tbdata.field("DIST_ADOP")
 v = tbdata.field("RV_ADOP")
+spec = tbdata.field("SPECTYPE_HAMMER")
 Data.close()
 
 inx = ((feh > -9999) & (dist > -9999) & (v > -9999))
 feh = feh[inx)]
 dist = dist[inx]
 v = v[inx]
+spec = spec[x]
+unique_spectpyes = set(spec)
+
 
 import matplotlib.pyplot as plt 
 
