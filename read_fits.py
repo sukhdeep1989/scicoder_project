@@ -16,11 +16,11 @@ class Read_fits():
 #        tbdata = Data[1].data
         good=np.array([])
 
-        for name in col_names:
-            col=np.array(Data[1].data.field(name)
+        for name in self.col_names:
+            col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
-            good=good&temp_good
             self.data_out=np.vstack((self.data_out,col))
+            
 
         Data.close()
 #        data_out=data_out[good==True]
