@@ -16,6 +16,7 @@ class Read_fits():
         tbdata = Data[1].data
         i=0
         good=np.array([])
+
         for name in col_names:
             col=np.array(tbdata.field(self.col_names[i]))
             temp_good=np.array(col>-9999)
@@ -30,12 +31,12 @@ class Read_fits():
         Data = fits.open(FileName,memmap=True)
         tbdata = Data[1].data
         data_out=[]
-
+        good=np.array([])
         for name in col_names:
             col=np.array(tbdata.field(name))
-            temp_good=col>-9999
+            temp_good=np.array(col>-9999)
             self.data_out=np.vstack((self.data_out,col))
-
+            good=good&temp_good
 
         Data.close()
 
