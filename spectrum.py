@@ -54,24 +54,27 @@ class Spectrum():
         return spec_data
 
     
-    def plot_spec(self):
+    def plot_spec(self,label):
         fig,ax = plt.subplots(1,1,figsize=(20,5))
         xmin = min(self.spec_data['wavelengths'])
         xmax = max(self.spec_data['wavelengths'])
         ax.set_xlim(xmin,xmax)
+#        ax.set_title(title)
         ax.set_xlabel("Wavelength",fontsize=20)
         ax.set_ylabel("Flux",fontsize=20)
-        plot(self.spec_data['wavelengths'],self.spec_data['flux'])
+        ax.plot(self.spec_data['wavelengths'],self.spec_data['flux'],label=label)
+        ax.legend()
         
 
     def spec_coadd(self,spec1): #spec1 is list of spectra to co add
         self.spec_data=spec1[0].spec_data.copy()
-        Flux_all=np.empty(np.array(spec1[0].spec_data['flux']).shape)
-        
-        for i in range (len(spec1)):
-            Flux_all=np.column_stack((Flux_all,np.array(spec1[i].spec_data['flux'])))
+        Flux_all=np.zeros(np.array(spec1[0].spec_data['flux']).shape)
 
-        self.spec_data['flux']=np.median(Flux_all,axis=1)
+        for i in range (len(spec1)):
+           Flux_all=np.column_stack((Flux_all,np.array(spec1[i].spec_data['flux'])))
+            
+        Flux_all=np.delete(Flux_all,0,axis=-1)    
+        self.spec_data['flux']=np.mean(Flux_all,axis=-1)
 
         
     def spec_interpolate(self,spec): #spec is spectrum to which self will be interpolated
