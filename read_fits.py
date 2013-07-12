@@ -17,33 +17,36 @@ class Read_fits():
 
     def read_data(self):
         Data = fits.open(self.FileName,memmap=True)
+        self.data_out=np.zeros(np.array(Data[1].data.field(col_names[0])).shape)
 #        tbdata = Data[1].data
         good=np.array([])
 
         for name in self.col_names:
             col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
-#            self.data_out=np.vstack((self.data_out,col))
-            self.data_out=[self.data_out,col]
+            self.data_out=np.column_stack((self.data_out,col))
+#            self.data_out=[self.data_out,col]
 
         Data.close()
-#        data_out=data_out[good==True]
+        self.data_out=np.delete(self.data_out,0,axis=-1)
+        self.data_out=self.data_out[good==True]
         return self.data_out
 
     def read_data2(FileName,col_names):
         Data = fits.open(FileName,memmap=True)
  #       tbdata = Data[1].data
-        data_out=[]
+        data_out=np.zeros(np.array(Data[1].data.field(col_names[0])).shape)
         good=np.array([])
         for name in col_names:
             col=np.array(Data[1].data.field(name))
             temp_good=np.array(col>-9999)
-#            self.data_out=np.vstack((data_out,col))
+            data_out=np.column_stack((data_out,col))
             good=good&temp_good
-            self.data_out=[self.data_out,col]                                 
+#            self.data_out=[self.data_out,col]                                 
 
         Data.close()
-#        data_out=data_out[good==True]
+        data_out=np.delete(data_out,0,axis=-1)
+        data_out=data_out[good==True]
         return data_out
 
 
