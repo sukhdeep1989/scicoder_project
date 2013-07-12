@@ -11,16 +11,16 @@ def pos_search(RA=None, DEC=None, width=None, height=None):
 		raise TypeError('The height doesn\'t have units!')
 	
 	data = Read_fits(ssppOut-dr9.fits, col_names=['RA', 'DEC', 'SPECOBJID'])
-	
-	if RA is not None:
-	
+		RA_dat = data[0]
+		DEC_dat = data[1]
+		ID_dat = data[2]	
 		RA_bottom = RA-width/2.
 		RA_top = RA+width/2.
 		DEC_bottom = DEC-height/2.
 		DEC_top = DEC+height/2.
 	
-		idx = [i for i in (RA[i]<RA_top) & (RA[i]>RA_bottom) & (DEC[i]<DEC_top) & (DEC[i]>DEC_bottom)]
+		idx = [i for i in (RA_dat[i]<RA_top) & (RA_dat[i]>RA_bottom) & (DEC_dat[i]<DEC_top) & (DEC_dat[i]>DEC_bottom)]
 		
-		return SPECOBJID[idx]	
+		return ID_dat[idx]	
 	
 	
