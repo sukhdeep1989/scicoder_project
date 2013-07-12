@@ -32,9 +32,10 @@ def pos_search(RA=None, DEC=None, width=None, height=None):
 		
 	data = Read_fits(ssppOut-dr9.fits, col_names=['RA', 'DEC', 'SPECOBJID'])
 	
-	RA_dat = data[0]
-	DEC_dat = data[1]
-	ID_dat = data[2]	
+	RA_DEC=data[0]
+	RA_dat = RA_DEC[0]
+	DEC_dat = RA_DEC[1]
+	ID_dat = data[1]	
 	RA_bottom = RA-w/2.
 	RA_top = RA+w/2.
 	DEC_bottom = DEC-h/2.
