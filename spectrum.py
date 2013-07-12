@@ -1,6 +1,7 @@
 import read_fits
 from urlgrabber import urlgrab
 import urllib2
+import json
 
 # grabs spectrum from sdss and reads into a variable spec_data
 #usage:
@@ -25,14 +26,15 @@ class Spectrum():
         self.col_names=['loglam','flux']
 
     def fetch_data(plate,fiber,mjd,dat_file):
-        Url='http://api.sdss3.org/spectrum?plate='+str(plate)+'&fiber='+str(fiber)+'&mjd='+str(mjd)
+        Url='http://api.sdss3.org/spectrum?plate='+str(plate)+'&fiber='+str(fiber)+'&mjd='+str(mjd)+'&format=json'
         urlgrab(Url,filename=dat_file)
 
     def fetch_data_self(self):
-        Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
+        Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)+'&format=json'
         url_op=urllib2.urlopen(Url)
+#        specd=json.load(url_op)
         self.spec_data=json.load(url_op)
-#        urlgrab(Url,filename=self.dat_file)
+
 
     def download_data_self(self):
         Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
@@ -50,9 +52,12 @@ class Spectrum():
         return spec_data
 
     
-#    def plot_spec(self):
+    def plot_spec(self):
+        plot(self.spec_data['wavelengths'],self.spec_data['flux'])
         
 
  #   def spec_coadd(spec1,spec2):
         
         
+#spec1.spec_data.keys()
+
