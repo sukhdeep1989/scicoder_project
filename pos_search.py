@@ -1,4 +1,5 @@
 import astropy.units as u
+from astropy import coordinates as coord
 
 def pos_search(RA=None, DEC=None, width=None, height=None):
 	if not hasattr(RA, 'units'):
@@ -41,10 +42,12 @@ def pos_search(RA=None, DEC=None, width=None, height=None):
 	DEC_bottom = DEC-h/2.
 	DEC_top = DEC+h/2.
 	
-		idx = [i for i in (RA_dat[i]<RA_top) & (RA_dat[i]>RA_bottom) & (DEC_dat[i]<DEC_top) & (DEC_dat[i]>DEC_bottom)]
+	idx = [i for i in (RA_dat[i]<RA_top) & (RA_dat[i]>RA_bottom) & (DEC_dat[i]<DEC_top) & (DEC_dat[i]>DEC_bottom)]
 		
-		in_box = ID_dat[idx]
+	in_box = ID_dat[idx]
 		
-		return in_box	
+	return in_box	
+	
+
 	
 	
