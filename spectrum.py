@@ -74,7 +74,7 @@ class Spectrum():
            Flux_all=np.column_stack((Flux_all,np.array(spec1[i].spec_data['flux'])))
             
         Flux_all=np.delete(Flux_all,0,axis=-1)    
-        self.spec_data['flux']=np.mean(Flux_all,axis=-1)
+        self.spec_data['flux']=np.median(Flux_all,axis=-1)
 
         
     def spec_interpolate(self,spec): #spec is spectrum to which self will be interpolated
