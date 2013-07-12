@@ -37,12 +37,11 @@ class Spectrum():
 #        specd=json.load(url_op)
         self.spec_data=json.load(url_op)
 
-
     def download_data_self(self):
         Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
         urlgrab(Url,filename=self.dat_file)                                                                                           
 
-        
+      
     def read_data_self(self):
         read_file=read_fits.Read_fits(FileName=self.dat_file,col_names=self.col_names)
         self.spec_data=read_file.read_data()
@@ -82,6 +81,25 @@ class Spectrum():
         self.spec_data['wavelengths']=spec.spec_data['wavelengths']
         self.spec_data['flux']=flux_new(spec.spec_data['wavelengths'])
         
+
+
+def add_spectra(list_file):
+    star_list=np.loadtxt(list_file)
+    spec=[]
+    for i in range (len(star_list)):
+        spec.append(Spectrum(plate=np.int_(star_list[i,0]),fiber=np.int_(star_list[i,1]),mjd=np.int_(star_list[i,2])))
+        spec[i].fetch_data_self()
+
+    print "data fetched"
+
+    for i in range (len(star_list)-1):
+        spec[i].spec_interpolate(spec[len(star_list)-1])
+        
+    spec_ca=Spectrum()
+    spec_ca.spec_coadd(spec)
+    spec_ca.plot_spec("coadded")
+
+    return spec_ca
 
 #np.sort(spec1.spec_data.keys())
 
