@@ -5,7 +5,7 @@ from urlgrabber import urlgrab
 #usage:
 #spec1=Spectrum(plate=276,fiber=627,mjd=51909)  intialize class
 #spec1.fetch_data_self() fetch data from sdss
-#spec1.read_data()   reads spectrum from downloaded file
+#spec1.read_data_self()   reads spectrum from downloaded file
 
 class Spectrum():
     dat_file=''
@@ -24,18 +24,22 @@ class Spectrum():
 
     def fetch_data(plate,fiber,mjd,dat_file):
         Url='http://api.sdss3.org/spectrum?plate='+str(plate)+'&fiber='+str(fiber)+'&mjd='+str(mjd)
-        urlgrab(Url,filename=out_file)
+        urlgrab(Url,filename=dat_file)
 
     def fetch_data_self(self):
         Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
         urlgrab(Url,filename=self.dat_file)
 
         
-    def read_data(self):
+    def read_data_self(self):
         read_file=read_fits.Read_fits(FileName=self.dat_file,col_names=self.col_names)
         self.spec_data=read_file.read_data()
         
         
+    def read_data(dat_file,col_names):
+        read_file=read_fits.Read_fits(FileName=dat_file,col_names=col_names)
+        spec_data=read_file.read_data()
+        return spec_data
 
     
     
