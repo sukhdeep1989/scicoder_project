@@ -55,6 +55,12 @@ class Spectrum():
 
     
     def plot_spec(self):
+        fig,ax = plt.subplots(1,1,figsize=(20,5))
+        xmin = min(self.spec_data['wavelengths'])
+        xmax = max(self.spec_data['wavelengths'])
+        ax.set_xlim(xmin,xmax)
+        ax.set_xlabel("Wavelength",fontsize=20)
+        ax.set_ylabel("Flux",fontsize=20)
         plot(self.spec_data['wavelengths'],self.spec_data['flux'])
         
 
@@ -63,13 +69,13 @@ class Spectrum():
         Flux_all=np.empty(np.array(spec1[0].spec_data['flux']).shape)
         
         for i in range (len(spec1)):
-            Flux_all=np.vstack((Flux_all,spec1[i].spec_data['flux']))
+            Flux_all=np.column_stack((Flux_all,np.array(spec1[i].spec_data['flux'])))
 
-        self.spec_data['flux']=np.median(Flux_all,axis=0)
+        self.spec_data['flux']=np.median(Flux_all,axis=1)
 
         
     def spec_interpolate(self,spec): #spec is spectrum to which self will be interpolated
-        flux_new=interpolate.interp1d(np.array(spec.spec_data['wavelengths']),np.array(spec.spec_data['flux']),kind='linear')
+        flux_new=interpolate.interp1d(np.array(self.spec_data['wavelengths']),np.array(self.spec_data['flux']),kind='linear',bounds_error=False)
         self.spec_data['wavelengths']=spec.spec_data['wavelengths']
         self.spec_data['flux']=flux_new(spec.spec_data['wavelengths'])
         
