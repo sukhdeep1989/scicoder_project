@@ -2,6 +2,8 @@ import read_fits
 from urlgrabber import urlgrab
 import urllib2
 import json
+import numpy as np
+from scipy import interpolate
 
 # grabs spectrum from sdss and reads into a variable spec_data
 #usage:
@@ -56,8 +58,21 @@ class Spectrum():
         plot(self.spec_data['wavelengths'],self.spec_data['flux'])
         
 
- #   def spec_coadd(spec1,spec2):
+    def spec_coadd(self,spec1): #spec1 is list of spectra to co add
+        self.spec_data=spec1[0].spec_data.copy()
+        Flux_all=np.empty(np.array(spec1[0].spec_data['flux']).shape)
         
+        for i in range (len(spec1)):
+            Flux_all=np.vstack((Flux_all,spec1[i].spec_data['flux']))
+
+        self.spec_data['flux']=np.median(Flux_all,axis=0)
+
         
-#spec1.spec_data.keys()
+    def spec_interpolate(self,spec): #spec is spectrum to which self will be interpolated
+        flux_new=interpolate.interp1d(np.array(spec.spec_data['wavelengths']),np.array(spec.spec_data['flux']),kind='linear')
+        self.spec_data['wavelengths']=spec.spec_data['wavelengths']
+        self.spec_data['flux']=flux_new(spec.spec_data['wavelengths'])
+        
+
+#np.sort(spec1.spec_data.keys())
 
