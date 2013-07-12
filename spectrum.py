@@ -1,11 +1,13 @@
 import read_fits
 from urlgrabber import urlgrab
+import urllib2
 
 # grabs spectrum from sdss and reads into a variable spec_data
 #usage:
 #spec1=Spectrum(plate=276,fiber=627,mjd=51909)  intialize class
-#spec1.fetch_data_self() fetch data from sdss
-#spec1.read_data_self()   reads spectrum from downloaded file
+#spec1.fetch_data_self() fetch data from sdss (not downloaded)
+#spec1.download_data_self() download data from sdss  
+#spec1.read_data_self()   reads spectrum from a downloaded file
 
 class Spectrum():
     dat_file=''
@@ -28,7 +30,13 @@ class Spectrum():
 
     def fetch_data_self(self):
         Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
-        urlgrab(Url,filename=self.dat_file)
+        url_op=urllib2.urlopen(Url)
+        self.spec_data=json.load(url_op)
+#        urlgrab(Url,filename=self.dat_file)
+
+    def download_data_self(self):
+        Url='http://api.sdss3.org/spectrum?plate='+str(self.plate)+'&fiber='+str(self.fiber)+'&mjd='+str(self.mjd)
+        urlgrab(Url,filename=self.dat_file)                                                                                           
 
         
     def read_data_self(self):
@@ -42,4 +50,9 @@ class Spectrum():
         return spec_data
 
     
-    
+#    def plot_spec(self):
+        
+
+ #   def spec_coadd(spec1,spec2):
+        
+        
